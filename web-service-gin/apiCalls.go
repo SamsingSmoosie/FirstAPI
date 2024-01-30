@@ -17,6 +17,13 @@ func getJson(filepath string) {
 		log.Fatal(err)
 
 	}
+	defer func() {
+		if jsonErr := jsonFile.Close(); jsonErr != nil {
+			fmt.Println("Can't close : ", jsonErr)
+			return
+		}
+	}()
+
 	fmt.Println("Successfully opened PersonalData.json")
 
 	byteValue, err := io.ReadAll(jsonFile)
@@ -28,13 +35,6 @@ func getJson(filepath string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	defer func() {
-		if jsonErr := jsonFile.Close(); jsonErr != nil {
-			fmt.Println("Can't close : ", jsonErr)
-			return
-		}
-	}()
 }
 
 func getPeople(c *gin.Context) {
@@ -48,7 +48,6 @@ func postPerson(c *gin.Context) {
 		return
 	}
 
-	// Add the new album to the slice.
 	people = append(people, newPerson)
 	c.IndentedJSON(http.StatusCreated, newPerson)
 }
@@ -91,11 +90,9 @@ func getPersonByGUID(c *gin.Context) {
 
 func getPersonByIsActive(c *gin.Context) {
 	isActive, _ := strconv.ParseBool(c.Param("isActive"))
-
 	for _, a := range people {
 		if a.IsActive == isActive {
 			c.IndentedJSON(http.StatusOK, a)
-			return
 		}
 	}
 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Person not found"})
@@ -107,19 +104,19 @@ func getPersonByBalance(c *gin.Context) {
 	for _, a := range people {
 		if a.Balance == balance {
 			c.IndentedJSON(http.StatusOK, a)
-			return
+
 		}
 	}
 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Person not found"})
 }
 
 func getPersonByAge(c *gin.Context) {
-	age, _ := strconv.Atoi(c.Param("isActive"))
+	age, _ := strconv.Atoi(c.Param("age"))
 
 	for _, a := range people {
 		if a.Age == age {
 			c.IndentedJSON(http.StatusOK, a)
-			return
+
 		}
 	}
 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Person not found"})
@@ -131,7 +128,7 @@ func getPersonByEyeColor(c *gin.Context) {
 	for _, a := range people {
 		if a.EyeColor == eyeColor {
 			c.IndentedJSON(http.StatusOK, a)
-			return
+
 		}
 	}
 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Person not found"})
@@ -145,7 +142,7 @@ func getPersonByGender(c *gin.Context) {
 	for _, a := range people {
 		if a.Gender == gender {
 			c.IndentedJSON(http.StatusOK, a)
-			return
+
 		}
 	}
 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Person not found"})
@@ -157,7 +154,7 @@ func getPersonByCompany(c *gin.Context) {
 	for _, a := range people {
 		if a.Company == company {
 			c.IndentedJSON(http.StatusOK, a)
-			return
+
 		}
 	}
 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Person not found"})
@@ -169,7 +166,7 @@ func getPersonByEmail(c *gin.Context) {
 	for _, a := range people {
 		if a.Email == email {
 			c.IndentedJSON(http.StatusOK, a)
-			return
+
 		}
 	}
 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Person not found"})
@@ -181,7 +178,7 @@ func getPersonByPhoneNumber(c *gin.Context) {
 	for _, a := range people {
 		if a.Phone == phoneNumber {
 			c.IndentedJSON(http.StatusOK, a)
-			return
+
 		}
 	}
 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Person not found"})
@@ -195,7 +192,7 @@ func getPersonByAbout(c *gin.Context) {
 	for _, a := range people {
 		if a.About == about {
 			c.IndentedJSON(http.StatusOK, a)
-			return
+
 		}
 	}
 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Person not found"})
@@ -207,7 +204,7 @@ func getPersonByRegistered(c *gin.Context) {
 	for _, a := range people {
 		if a.Registered == registered {
 			c.IndentedJSON(http.StatusOK, a)
-			return
+
 		}
 	}
 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Person not found"})
@@ -219,7 +216,7 @@ func getPersonByLatitude(c *gin.Context) {
 	for _, a := range people {
 		if a.Latitude == latitude {
 			c.IndentedJSON(http.StatusOK, a)
-			return
+
 		}
 	}
 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Person not found"})
@@ -231,7 +228,7 @@ func getPersonByLongitude(c *gin.Context) {
 	for _, a := range people {
 		if a.Longitude == longitude {
 			c.IndentedJSON(http.StatusOK, a)
-			return
+
 		}
 	}
 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Person not found"})
