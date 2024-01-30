@@ -12,7 +12,7 @@ func main() {
 
 	router := gin.Default()
 	router.GET("/people", getPeople)
-	router.GET("/albums/id/:id", getPersonByID)
+	router.GET("/people/id/:id", getPersonByID)
 	router.GET("/people/index/:index", getPersonByIndex)
 	router.GET("/people/guid/:guid", getPersonByGUID)
 	router.GET("/people/isActive/:isActive", getPersonByIsActive)
